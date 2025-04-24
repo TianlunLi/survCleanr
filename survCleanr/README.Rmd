@@ -1,0 +1,82 @@
+---
+output: github_document
+---
+
+# survCleanr <img src="https://img.shields.io/badge/status-developer-blue" align="right"/>
+
+> **A simple R package to clean and prepare CDISC-format survival data for analysis.**
+
+survCleanr provides tools to prepare time-to-event (survival) analysis datasets using ADSL and ADTTE data based on the CDISC structure. It simplifies merging, filtering, and formatting to help statistical programmers and biostatisticians create clean survival-ready datasets.
+
+------------------------------------------------------------------------
+
+## Installation
+
+```{r}
+# From GitHub
+# install.packages("devtools")
+# devtools::install_github("your_github_username/survCleanr")
+```
+
+```{r}
+library(survCleanr)
+
+# Use built-in example data
+data(adsl)
+data(adtte)
+
+df <- prepare_surv_data(adsl, adtte, paramcd = "OS")
+head(df)
+
+```
+
+## Main Functions
+
+-   simulate_adsl(n = 10): Simulates a mock ADSL dataset with basic demographics and treatment assignment.
+
+- simulate_adtte(n = 10, paramcd = "OS"): Simulates a mock ADTTE dataset for a given endpoint (e.g., OS).
+
+-   check_adtte_format(adtte): Verifies that required variables (USUBJID, AVAL, CNSR, PARAMCD) exist in the ADTTE dataset.
+
+-   prepare_surv_data(adsl, adtte, paramcd = "OS"): Merges ADSL and ADTTE, filters by PARAMCD, and creates a survival-ready dataset containing time and status.
+
+```{bash}
+survCleanr/
+├── R/                   # Function scripts
+├── data/                # Built-in simulated datasets
+├── data-raw/            # Code to generate example data
+├── vignettes/           # Extended usage examples
+├── man/                 # Auto-generated help files
+├── README.Rmd / .md     # Package homepage
+
+```
+
+## Use Case
+
+You are working with clinical trial data formatted using the CDISC ADaM standard. Your goal is to analyze overall survival or progression-free survival using standard tools such as the survival package.
+
+Using survCleanr, you can:
+
+- Filter the ADTTE dataset for a specific endpoint (e.g., PARAMCD = "OS").
+
+- Convert AVAL and CNSR to time and status.
+
+- Merge the result with demographic and covariate data from ADSL.
+
+- Pass the output to survival::Surv() or survfit() directly.
+
+## Roadmap
+
+Planned features include:
+
+_ Support for time-varying covariates
+
+_ Basic Kaplan-Meier and forest plot generation
+
+_ Multi-endpoint preparation support
+
+_ Custom variable mapping for nonstandard datasets
+
+## Author
+
+Tianlun(Austin) Li MPH Candidate in Biostatistics at Yale University Specializing in statistical programming, clinical trial data, and survival analysis
